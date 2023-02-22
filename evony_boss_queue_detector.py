@@ -177,7 +177,7 @@ def go_to_specified_coordinates(x, y):
 
 def on_main_page_check():
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     main_page_check = cv2.imread('./base_images/game/main_page_check.png', cv2.IMREAD_UNCHANGED)
     main_page = len(get_location(gameplay_img, main_page_check, False))
@@ -187,7 +187,7 @@ def on_main_page_check():
 def perform_game_reset_seq():
     time.sleep(2)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     evony_app_logo = cv2.imread('./base_images/game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
     evony_app_page = len(get_location(gameplay_img, evony_app_logo, False))
@@ -198,7 +198,7 @@ def perform_game_reset_seq():
 
     time.sleep(5)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     double_down_button_purchase_img = cv2.imread('./base_images/game/double_down_button_purchase.png', cv2.IMREAD_UNCHANGED)
     double_down_page = len(get_location(gameplay_img, double_down_button_purchase_img, False))
@@ -207,7 +207,7 @@ def perform_game_reset_seq():
         click_location_on_screen(954,432)
         time.sleep(5)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/cross_button_purchase.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
@@ -216,7 +216,7 @@ def perform_game_reset_seq():
         click_location_on_screen(1030, 51)
         time.sleep(1)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     castle_page_check = cv2.imread('./base_images/game/world_button.png', cv2.IMREAD_UNCHANGED)
     castle_page = len(get_location(gameplay_img, castle_page_check, False))
@@ -234,12 +234,12 @@ def perform_game_reset_seq():
 
 
 def check_evony_status():
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/bluestack_error_freeze_msg.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check_2 = cv2.imread('./base_images/game/evony_logo_app_memu.png', cv2.IMREAD_UNCHANGED)
     purchase_page_2 = len(get_location(gameplay_img, purchase_page_check_2, False))
@@ -254,13 +254,13 @@ def check_evony_status():
 
 def check_if_reset_occurred():
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/cross_button_purchase.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
 
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
     castle_page_check = cv2.imread('./base_images/game/world_button.png', cv2.IMREAD_UNCHANGED)
     castle_page = len(get_location(gameplay_img, castle_page_check, False))
@@ -333,7 +333,10 @@ def collect_new_monsters_from_AC():
                     hitboss = str(boss_detail.loc[0, 'hit'])
                     hitbosslvl = str(boss_detail.loc[0, 'boss_level'])
                     hitbosstype = boss_detail.loc[0,'type']
-                    priority = boss_detail.loc[0,'priorities']
+                    if("Viking" in boss_name):
+                        priority = 0.01
+                    else:
+                        priority = int(boss_detail.loc[0,'priorities'])
 
                     if(boss_exists == 'Alive' and alliance_war == '1'):
                         update_boss_data("status", "Alliance Warred", datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
@@ -363,7 +366,7 @@ def collect_new_monsters_from_AC():
                         print("Duplicate Monster / Boss not in DB")
             except:
                 a = 1
-                # traceback.print_exc()
+                #traceback.print_exc()
             line_c += 1
         return
     else:
@@ -372,7 +375,7 @@ def collect_new_monsters_from_AC():
 def main():
     global latest_crash
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_boss_queue_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     latest_crash = check_if_evony_has_crashed()
     print("HAS EVONY CRASHED? " + latest_crash)
 

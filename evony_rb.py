@@ -8,17 +8,9 @@ import pandas as pd
 from datetime import datetime
 
 connection_ip = '127.0.0.1'
-connection_port = "50742"
+connection_port = "5565"
 connection_string = connection_ip + ":" + connection_port
 latest_crash = "FALSE"
-
-roland_img = cv2.imread('./base_images/generals/roland_rally_pic.png', cv2.IMREAD_UNCHANGED)
-theo_img = cv2.imread('./base_images/generals/theo_rally_pic.png', cv2.IMREAD_UNCHANGED)
-scorpio_img = cv2.imread('./base_images/generals/scropio_rally_pic.png', cv2.IMREAD_UNCHANGED)
-simone_img = cv2.imread('./base_images/generals/simone_rally_pic.png', cv2.IMREAD_UNCHANGED)
-no_general_img = cv2.imread('./base_images/generals/marching_blank_general.png', cv2.IMREAD_UNCHANGED)
-aethelflaed_img = cv2.imread('./base_images/generals/aethelflaed_rally_pic.png', cv2.IMREAD_UNCHANGED)
-
 
 cnx = mysql.connector.connect(
     user=os.environ["MY_SQL_USERNAME"],
@@ -103,7 +95,7 @@ def detect_fix_evony_object_name(name):
         if words_found == len(boss_array):
             return boss
 
-    return "null"
+    return name
 
 
 def take_screenshot_enhanced(loc, image_name):
@@ -129,7 +121,7 @@ def check_if_evony_has_crashed():
 
     try:
         gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
-        evony_app_logo = cv2.imread('./game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
+        evony_app_logo = cv2.imread('./base_images/game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
         evony_app_page = len(get_location(gameplay_img, evony_app_logo, False))
     except:
         crashed = "FALSE"
@@ -203,7 +195,7 @@ def go_to_specified_coordinates(x, y):
 
 def on_main_page_check():
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     main_page_check = cv2.imread('./base_images/game/main_page_check.png', cv2.IMREAD_UNCHANGED)
     main_page = len(get_location(gameplay_img, main_page_check, False))
@@ -213,7 +205,7 @@ def on_main_page_check():
 def perform_game_reset_seq():
     time.sleep(2)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     evony_app_logo = cv2.imread('./base_images/game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
     evony_app_page = len(get_location(gameplay_img, evony_app_logo, False))
@@ -224,7 +216,7 @@ def perform_game_reset_seq():
 
     time.sleep(5)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     double_down_button_purchase_img = cv2.imread('./base_images/game/double_down_button_purchase.png', cv2.IMREAD_UNCHANGED)
     double_down_page = len(get_location(gameplay_img, double_down_button_purchase_img, False))
@@ -233,7 +225,7 @@ def perform_game_reset_seq():
         click_location_on_screen(954,432)
         time.sleep(5)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/cross_button_purchase.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
@@ -242,7 +234,7 @@ def perform_game_reset_seq():
         click_location_on_screen(1030, 51)
         time.sleep(1)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     castle_page_check = cv2.imread('./base_images/game/world_button.png', cv2.IMREAD_UNCHANGED)
     castle_page = len(get_location(gameplay_img, castle_page_check, False))
@@ -261,12 +253,12 @@ def perform_game_reset_seq():
 
 
 def check_evony_status():
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/bluestack_error_freeze_msg.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check_2 = cv2.imread('./base_images/game/evony_logo_app_memu.png', cv2.IMREAD_UNCHANGED)
     purchase_page_2 = len(get_location(gameplay_img, purchase_page_check_2, False))
@@ -281,13 +273,13 @@ def check_evony_status():
 
 def check_if_reset_occurred():
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     purchase_page_check = cv2.imread('./base_images/game/cross_button_purchase.png', cv2.IMREAD_UNCHANGED)
     purchase_page = len(get_location(gameplay_img, purchase_page_check, False))
 
     time.sleep(1)
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     castle_page_check = cv2.imread('./base_images/game/world_button.png', cv2.IMREAD_UNCHANGED)
     castle_page = len(get_location(gameplay_img, castle_page_check, False))
@@ -360,7 +352,7 @@ def collect_new_monsters_from_AC():
                     hitboss = str(boss_detail.loc[0, 'hit'])
                     hitbosslvl = str(boss_detail.loc[0, 'boss_level'])
                     hitbosstype = boss_detail.loc[0,'type']
-                    priority = boss_detail.loc[0,'priorities']
+                    priority = int(boss_detail.loc[0,'priorities'])
 
                     if(boss_exists == 'Alive' and alliance_war == '1'):
                         update_boss_data("status", "Alliance Warred", datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
@@ -408,7 +400,7 @@ def attack_monster(present):
         os.system(cmd)
         time.sleep(2)
         try:
-            take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+            take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
             time.sleep(1)
             gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
             target_img = cv2.imread('./base_images/game/alliance_war_button.png', cv2.IMREAD_UNCHANGED)
@@ -455,6 +447,7 @@ def attack_monster(present):
                 time.sleep(1)
                 
             x = 100
+            time.sleep(3)
             cmd = "adb -s " + connection_string + " shell input tap " + str(800) + " " + str(1850)
             os.system(cmd)
         except:
@@ -486,8 +479,16 @@ def initiate_rally(target, general_no, general_name):
 
 
 def determine_if_slot_is_open(slot_num):
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    time.sleep(2)
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
+    roland_img = cv2.imread('./base_images/generals/roland_rally_pic.png', cv2.IMREAD_UNCHANGED)
+    theo_img = cv2.imread('./base_images/generals/theo_rally_pic.png', cv2.IMREAD_UNCHANGED)
+    scorpio_img = cv2.imread('./base_images/generals/scropio_rally_pic.png', cv2.IMREAD_UNCHANGED)
+    simone_img = cv2.imread('./base_images/generals/simone_rally_pic.png', cv2.IMREAD_UNCHANGED)
+    no_general_img = cv2.imread('./base_images/generals/marching_blank_general.png', cv2.IMREAD_UNCHANGED)
+    aethelflaed_img = cv2.imread('./base_images/generals/aethelflaed_rally_pic.png', cv2.IMREAD_UNCHANGED)
+
     res = 0
 
     if(slot_num == 1): res = len(get_location(gameplay_img, theo_img, False))
@@ -496,7 +497,7 @@ def determine_if_slot_is_open(slot_num):
     elif(slot_num == 4): res = len(get_location(gameplay_img, roland_img, False))
     elif(slot_num == 5): res = len(get_location(gameplay_img, aethelflaed_img, False))
 
-    return res
+    return int(res)
 
 
 def hit_boss(slot):
@@ -504,17 +505,13 @@ def hit_boss(slot):
     boss_df = get_all_hitable_bosses_based_off_status('Alive')
     boss_df = pd.merge(boss_df, boss_list, how="left", left_on="name", right_on="boss_name")
 
-    if(int(determine_if_slot_is_open(slot)) == 0):
-        boss_df = get_all_hitable_bosses_based_off_status('Alive')
-        boss_df = pd.merge(boss_df, boss_list, how="left", left_on="name", right_on="boss_name")
+    boss_df_primary = boss_df.query("`{0}` == 1".format("slot_" + str(slot) + "_primary")).reset_index()
+    boss_df_secondary = boss_df.query("`{0}` == 1".format("slot_" + str(slot) + "_secondary")).reset_index()
 
-        boss_df_primary = boss_df.query("`{0}` == 1".format("slot_" + str(slot) + "_primary")).reset_index()
-        boss_df_secondary = boss_df.query("`{0}` == 1".format("slot_" + str(slot) + "_secondary")).reset_index()
-
-        if(len(boss_df_primary) == 0):
-            boss_to_hit = boss_df_secondary.iloc[0,:]
-        else:
-            boss_to_hit = boss_df_primary.iloc[0,:]
+    if(len(boss_df_primary) == 0):
+        boss_to_hit = boss_df_secondary.iloc[0,:]
+    else:
+        boss_to_hit = boss_df_primary.iloc[0,:]
     return boss_to_hit
 
 
@@ -530,7 +527,7 @@ def main():
     os.system('adb -s ' + connection_string + x_axis)
     time.sleep(2)
 
-    take_screenshot_enhanced("base_images/screenshots/", "capture_rb_screencap")
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     latest_crash = check_if_evony_has_crashed()
     print("HAS EVONY CRASHED? " + latest_crash)
 
@@ -546,14 +543,19 @@ def main():
                     for slot in generals_slots:
                         general = int(slot)
                         general_name = general_to_slots_map.query("slot_id == @general").reset_index().loc[0,"general"]
-                        initiate_rally(hit_boss(slot), slot, general_name)
+
+                        if(int(determine_if_slot_is_open(general)) == 0):
+                            try:
+                                initiate_rally(hit_boss(general), general, general_name)
+                            except:
+                                continue
             except:
                 traceback.print_exc()
                 print("Most likely queue is empty - Sleeping for 15 seconds")
-                time.sleep(15)
-        time.sleep(15)
+                time.sleep(5)
+        time.sleep(5)
     else:
-        time.sleep(30)
+        time.sleep(15)
 
 
 if __name__ == "__main__":
