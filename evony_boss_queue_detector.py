@@ -271,7 +271,7 @@ def check_if_reset_occurred():
 
 def collect_new_monsters_from_AC():
     boss_list = pd.read_csv("./config/bosses.csv")
-    alliance_war = 0
+    alliance_war = '0'
 
     bosses_names = boss_list['boss_name'].tolist()
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
@@ -280,9 +280,9 @@ def collect_new_monsters_from_AC():
     ac_chat = cv2.imread('./base_images/game/alliance_chat_image.png', cv2.IMREAD_UNCHANGED)
     on_ac_chat_currently = len(get_location(gameplay_img, ac_chat, False))
 
-    if(on_ac_chat_currently == 0):
-        click_location_on_screen(515, 1825)
-        click_location_on_screen(670, 110)
+    # if(on_ac_chat_currently == 0):
+    #     click_location_on_screen(515, 1825)
+    #     click_location_on_screen(670, 110)
 
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     txt = detect_text_local("capture_rb_boss_queue_screencap").split('\n')
@@ -312,13 +312,14 @@ def collect_new_monsters_from_AC():
                     boss_name = detect_fix_evony_object_name(boss_name)
 
                     coords = found.split("(")[1]
-                    coords = re.sub("X:|Y:|K:|\)","",coords)
+                    coords = re.sub("X:|Y:|K:|\)|}","",coords)
                     coords = re.split(" |,",coords)
                     
                     if(alliance_war == '1'):
                         print("Found (Alliance War): " + found + " - " + '"' + boss_name + '"')
                     else:
                         print("Found (Boss Share): " + found + " - " + '"' + boss_name + '"')
+                        alliance_war = '0'
                     j = 0
                     for i in coords:
                         coords[j] = ''.join(c for c in i if c.isdigit())
@@ -333,24 +334,23 @@ def collect_new_monsters_from_AC():
                     hitboss = str(boss_detail.loc[0, 'hit'])
                     hitbosslvl = str(boss_detail.loc[0, 'boss_level'])
                     hitbosstype = boss_detail.loc[0,'type']
-                    if("Viking" in boss_name):
-                        priority = 0.01
-                    else:
-                        priority = int(boss_detail.loc[0,'priorities'])
+                    priority = float(boss_detail.loc[0,'priorities'])
 
                     if(boss_exists == 'Alive' and alliance_war == '1'):
+                        print("Triggered")
                         update_boss_data("status", "Alliance Warred", datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
                         update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
                         alliance_war = '0'
                     elif(boss_exists == 'NULL' and alliance_war == '1'):
                         insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Not in DB', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
+                        alliance_war = '0'
                     elif(boss_exists == 'Dead' and alliance_war == '1'):
                         insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Self', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
-                        alliance_war = '0'                     
+                        alliance_war = '0'                   
                     elif(boss_exists == 'NULL' and alliance_war == '0'):
                         if(boss_name in bosses_names):
                             if(distance <= 450):
-                                if(priority > 0 and priority < 999):
+                                if(priority >= 0.01 and priority < 999):
                                     insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alive', priority, hitboss, -1, '', 0, '1', hitbosslvl, hitbosstype, 0, 'TBA')
                                     print(boss_name + " added!")
                                 else:
@@ -374,24 +374,30 @@ def collect_new_monsters_from_AC():
 
 def main():
     global latest_crash
+    global connection_port
+    global connection_string
 
-    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
-    latest_crash = check_if_evony_has_crashed()
-    print("HAS EVONY CRASHED? " + latest_crash)
+    for port in ['5575','5585']:
+        connection_port = port
+        connection_string = connection_ip + ":" + connection_port
+        take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
+        latest_crash = check_if_evony_has_crashed()
+        print("HAS EVONY CRASHED? " + latest_crash)
 
-    if("FALSE" in latest_crash):
-        if(check_if_reset_occurred() > 0):
-            perform_game_reset_seq()
-            click_location_on_screen(670, 110)
+        if("FALSE" in latest_crash):
+            if(check_if_reset_occurred() > 0):
+                perform_game_reset_seq()
+                click_location_on_screen(670, 110)
+            else:
+                try:
+                    time.sleep(2)
+                    collect_new_monsters_from_AC()
+                except:
+                    traceback.print_exc()
+                    print("Look into it")
+                    time.sleep(5)
         else:
-            try:
-                collect_new_monsters_from_AC()
-            except:
-                traceback.print_exc()
-                print("Look into it")
-                time.sleep(5)
-    else:
-        time.sleep(30)
+            time.sleep(30)
 
 
 if __name__ == "__main__":

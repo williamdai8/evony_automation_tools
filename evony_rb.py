@@ -12,15 +12,9 @@ connection_port = "5565"
 connection_string = connection_ip + ":" + connection_port
 latest_crash = "FALSE"
 
-cnx = mysql.connector.connect(
-    user=os.environ["MY_SQL_USERNAME"],
-    password=os.environ["MY_SQL_PWD"],
-    host='192.168.68.101',
-    database='evony',
-    auth_plugin='mysql_native_password')
-
 
 def check_boss_exists(date, x, y, boss_name, status):
+    cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
 
     if(status == 'null'):
         query = "SELECT * FROM rb_bosses_queue WHERE date_added = %s AND x = %s AND y = %s AND name = %s"
@@ -32,6 +26,7 @@ def check_boss_exists(date, x, y, boss_name, status):
     cursor = cnx.cursor()
     cursor.execute(query, params)
     df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+    cnx.close()
     if len(df) > 0:
         return df.loc[0,['status']]
     else:
@@ -39,7 +34,7 @@ def check_boss_exists(date, x, y, boss_name, status):
 
     
 def insert_into_rb_boss_queue(distance, x, y, name, status, priority, hit_boss, roland, outcome, lost_power, self_initiated_aw, boss_level, type, slot_used, general_used):
-        
+        cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
         date_added = datetime.now().strftime("%Y-%m-%d")
         current_datetime = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -49,32 +44,38 @@ def insert_into_rb_boss_queue(distance, x, y, name, status, priority, hit_boss, 
         cursor = cnx.cursor()
         cursor.execute(query, params)
         cnx.commit()
+        cnx.close()
 
 
 def update_boss_data(field, value, date, x, y, boss_name):
+        cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
         query = "UPDATE rb_bosses_queue SET " + field + " = %s WHERE date_added = %s AND x = %s AND y = %s AND name = %s"
         params = (value, date, x, y, boss_name)
         cursor = cnx.cursor()
         cursor.execute(query, params)
         cnx.commit()
+        cnx.close()
 
 
 def update_all_disappeared_bosses(period=1, field="status",value="Alive"):
-        query = "UPDATE rb_bosses_queue SET " + field + " = %s WHERE modified >= NOW() - INTERVAL %s HOUR"
+        cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
+        query = "UPDATE rb_bosses_queue SET " + field + " = %s WHERE modified >= NOW() - INTERVAL %s HOUR and status = 'Disappeared'"
         params = (value, period)
         cursor = cnx.cursor()
         cursor.execute(query, params)
         cnx.commit()
+        cnx.close()
 
 
 def get_all_hitable_bosses_based_off_status(status, hit=1):
-
+    cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
     query = "SELECT * FROM rb_bosses_queue WHERE status = %s and hit = %s order by priority asc, distance asc"
     params = (status, hit)
 
     cursor = cnx.cursor()
     cursor.execute(query, params)
     df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+    cnx.close()
     return df
 
 
@@ -288,107 +289,6 @@ def check_if_reset_occurred():
     return purchase_page
 
 
-def collect_new_monsters_from_AC():
-    boss_list = pd.read_csv("./config/bosses.csv")
-    alliance_war = 0
-    bosses_names = boss_list['boss_name'].tolist()
-
-    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
-    gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
-
-    ac_chat = cv2.imread('./base_images/game/alliance_chat_image.png', cv2.IMREAD_UNCHANGED)
-    on_ac_chat_currently = len(get_location(gameplay_img, ac_chat, False))
-
-    if(on_ac_chat_currently == 0):
-        click_location_on_screen(515, 1825)
-        click_location_on_screen(670, 110)
-
-    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
-    txt = detect_text_local("capture_rb_screencap").split('\n')
-    if(txt != 'NULL'):
-        line_c = 0
-        for line in txt:
-            try:
-                if re.search("^.+K:.+X:.+", line):
-
-                    if "Alliance War" in line:
-                        alliance_war = '1'
-                    elif "shared Coordinates" in line:
-                        alliance_war = '0'
-                    else:
-                        alliance_war = '0'
-
-                    boss = ''
-                    if(")" in txt[line_c + 1]):
-                        boss = line + " " + txt[line_c + 1]
-                    else:
-                        boss = line
-
-                    found = re.sub("started an Alliance War: | Join Now|shared Coordinates: ","",boss)
-                    found = found.replace("(Boss)","Boss")
-
-                    boss_name = found.split("(")[0]
-                    boss_name = detect_fix_evony_object_name(boss_name)
-
-                    coords = found.split("(")[1]
-                    coords = re.sub("X:|Y:|K:|\)","",coords)
-                    coords = re.split(" |,",coords)
-                    
-                    if(alliance_war == '1'):
-                        print("Found (Alliance War): " + found + " - " + '"' + boss_name + '"')
-                    else:
-                        print("Found (Boss Share): " + found + " - " + '"' + boss_name + '"')
-                    j = 0
-                    for i in coords:
-                        coords[j] = ''.join(c for c in i if c.isdigit())
-                        j+=1
-                        if(coords[2] == ''):
-                            coords[2] = coords[3]
-                        distance = round(math.sqrt((576-int(coords[1]))**2 + (767-int(coords[2]))**2)) + 5
-
-                    boss_exists = check_boss_exists(datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name, 'null')
-
-                    boss_detail = boss_list.query("boss_name == @boss_name").reset_index()
-                    hitboss = str(boss_detail.loc[0, 'hit'])
-                    hitbosslvl = str(boss_detail.loc[0, 'boss_level'])
-                    hitbosstype = boss_detail.loc[0,'type']
-                    priority = int(boss_detail.loc[0,'priorities'])
-
-                    if(boss_exists == 'Alive' and alliance_war == '1'):
-                        update_boss_data("status", "Alliance Warred", datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
-                        update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
-                        alliance_war = '0'
-                    elif(boss_exists == 'NULL' and alliance_war == '1'):
-                        insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Not in DB', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
-                    elif(boss_exists == 'Dead' and alliance_war == '1'):
-                        insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Self', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
-                        alliance_war = '0'                     
-                    elif(boss_exists == 'NULL' and alliance_war == '0'):
-                        if(boss_name in bosses_names):
-                            if(distance <= 450):
-                                if(priority > 0 and priority < 999):
-                                    insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alive', priority, hitboss, -1, '', 0, '1', hitbosslvl, hitbosstype, 0, 'TBA')
-                                    print(boss_name + " added!")
-                                else:
-                                    insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Criteria', 999, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
-                                    print(boss_name + " does not meet criteria")
-                            else:
-                                insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Distance', 888, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
-                                print(boss_name + " exceed Rallybot Range!")
-                        else:
-                            insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Non-Boss', 999, 0, -1, '', 0, '0', 0, "None", 0, "None")
-                            print(boss_name + " does not meet criteria")
-                    else:
-                        print("Duplicate Monster / Boss not in DB")
-            except:
-                a = 1
-                # traceback.print_exc()
-            line_c += 1
-        return
-    else:
-        return
-
-
 def attack_monster(present):
         global monster_escape
         x = -1
@@ -447,7 +347,7 @@ def attack_monster(present):
                 time.sleep(1)
                 
             x = 100
-            time.sleep(3)
+            time.sleep(1)
             cmd = "adb -s " + connection_string + " shell input tap " + str(800) + " " + str(1850)
             os.system(cmd)
         except:
@@ -516,7 +416,7 @@ def hit_boss(slot):
 
 
 def main():
-    slots = 4
+    slots = 5
     global latest_crash
     generals_slots = pd.read_csv("./config/slots.csv").query('num_of_slots == @slots').reset_index().loc[0,"included_slots"].split(",")
 
@@ -552,10 +452,10 @@ def main():
             except:
                 traceback.print_exc()
                 print("Most likely queue is empty - Sleeping for 15 seconds")
-                time.sleep(5)
+                time.sleep(1)
         time.sleep(5)
     else:
-        time.sleep(15)
+        time.sleep(5)
 
 
 if __name__ == "__main__":
