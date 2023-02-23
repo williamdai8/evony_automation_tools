@@ -289,7 +289,7 @@ def check_if_reset_occurred():
     return purchase_page
 
 
-def attack_monster(present):
+def attack_monster(present, alliance_war):
         global monster_escape
         x = -1
         cmd = "adb -s " + connection_string + " shell input tap " + str(520) + " " + str(920)
@@ -302,8 +302,15 @@ def attack_monster(present):
         try:
             take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
             time.sleep(1)
+
+            image_match_file = ''
+            if(alliance_war == 1):
+                image_match_file = './base_images/game/alliance_war_button.png'
+            else:
+                image_match_file = './base_images/game/non_alliance_war_button.png'
+
             gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
-            target_img = cv2.imread('./base_images/game/alliance_war_button.png', cv2.IMREAD_UNCHANGED)
+            target_img = cv2.imread(image_match_file, cv2.IMREAD_UNCHANGED)
             w = target_img.shape[1]
             h = target_img.shape[0]
             rec = get_location(gameplay_img, target_img, 1)
@@ -363,7 +370,7 @@ def initiate_rally(target, general_no, general_name):
     print("Currently killing: " + target["name"] + " at location " + str(target["x"]) + " " + str(target["y"]) + " as a distance of " + str(target["distance"]) + "KM")
     go_to_specified_coordinates(target["x"], target["y"])
     time.sleep(2)
-    sleep_counter = attack_monster(general_no)
+    sleep_counter = attack_monster(general_no, int(target["alliance_war"]))
 
     if(sleep_counter != -1):
         update_boss_data("status", "Dead", target["date_added"], int(target["x"]), int(target["y"]), target["name"])

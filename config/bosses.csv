@@ -1,145 +1,145 @@
-boss_name,boss_level,type,hit,priorities,slot_1_primary,slot_1_secondary,slot_2_primary,slot_2_secondary,slot_3_primary,slot_3_secondary,slot_4_primary,slot_4_secondary,slot_5_primary,slot_5_secondary
-Lv1 King Ghidorah,1,King Ghidorah,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv2 King Ghidorah,2,King Ghidorah,1,0.02,1,1,1,1,1,1,0,1,0,1
-Lv3 King Ghidorah,3,King Ghidorah,1,0.03,0,0,1,1,1,1,0,1,0,1
-Lv8 Pumpkin Monster,8,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0
-Lv7 Pumpkin Monster,7,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0
-Lv6 Pumpkin Monster,6,Pumpkin Monster,1,0,0,0,1,1,1,1,0,0,0,0
-Lv5 Pumpkin Monster,5,Pumpkin Monster,1,0,0,0,1,1,1,1,0,0,0,0
-Lv4 Pumpkin Monster,4,Pumpkin Monster,1,1,1,1,1,1,1,1,1,1,1,1
-Lv3 Pumpkin Monster,3,Pumpkin Monster,1,1,1,1,1,1,1,1,1,1,1,1
-Lv2 Pumpkin Monster,2,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Pumpkin Monster,1,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0
-Lv6 Sphinx,6,Sphinx,0,0,0,0,0,0,0,0,0,0,0,0
-Lv5 Sphinx,5,Sphinx,0,0,0,0,0,0,0,0,0,0,0,0
-Lv4 Sphinx,4,Sphinx,1,1,0,0,0,0,0,0,1,1,1,1
-Lv3 Sphinx,3,Sphinx,1,1,0,0,1,1,1,1,1,1,1,1
-Lv2 Sphinx,2,Sphinx,1,1,1,1,1,1,1,1,0,1,0,1
-Lv1 Sphinx,1,Sphinx,0,1,0,0,0,0,0,0,0,0,0,0
-Lv1 Mire Squid,1,Mire Squid,0,0,0,0,0,0,0,0,0,0,0,0
-Lv2 Mire Squid,2,Mire Squid,1,1,1,1,1,1,1,1,0,1,0,1
-Lv3 Mire Squid,3,Mire Squid,1,1,0,0,1,1,1,1,0,1,0,1
-Lv4 Mire Squid,4,Mire Squid,1,1,0,0,0,0,0,0,1,1,1,1
-Lv1 Golem,1,Golem,0,0,0,0,0,0,0,0,0,0,0,0
-Lv2 Golem,2,Golem,1,1,1,1,1,1,1,1,0,1,0,1
-Lv3 Golem,3,Golem,1,1,0,0,1,1,1,1,0,1,0,1
-Lv4 Golem,4,Golem,1,1,0,0,0,0,0,0,1,1,1,1
-Lv1 Nightingale,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
-Lv1 Nell,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
-Lv1 Duke,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
-Lv1 Junior Cerberus,1,Cerberus,1,2,1,1,1,1,1,1,0,1,0,1
-Lv2 Medium Cerberus,2,Cerberus,1,1,0,0,0,0,0,0,1,1,1,1
-Lv3 Senior Cerberus,3,Cerberus,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Junior Knight Bayard,1,Knight Bayard,1,2,1,1,1,1,1,1,0,1,0,1
-Lv2 Senior Bayar Knight,2,Knight Bayard,1,1.6,0,0,0,0,0,0,1,1,1,1
-Lv3 Excellent Knight Bayard,3,Knight Bayard,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Ymir,1,Ymir,0,0,0,0,0,0,0,0,0,0,0,0
-Lv2 Ymir,2,Ymir,1,0.02,0,0,1,1,1,1,1,1,1,1
-Lv3 Ymir,3,Ymir,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv4 Ymir,4,Ymir,0,0,0,0,0,0,0,0,0,0,0,0
-Lv5 Ymir,5,Ymir,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Warlord,1,Warlord,0,1,0,0,0,0,0,0,0,0,0,0
-Lv2 Warlord,2,Warlord,1,1,1,1,1,1,1,1,0,1,0,1
-Lv3 Warlord,3,Warlord,1,1,0,0,1,1,1,1,0,1,0,1
-Lv4 Warlord,4,Warlord,1,1,0,0,0,0,0,0,1,1,1,1
-Lv5 Warlord,5,Warlord,0,1,0,0,0,0,0,0,0,0,0,0
-Lv1 Junior Hydra,1,Hydra,1,1.5,0,0,1,1,1,1,1,1,1,1
-Lv2 Medium Hydra,2,Hydra,1,1,0,0,0,0,0,0,1,1,1,1
-Lv3 Senior Hydra,3,Hydra,0,0,0,0,0,0,0,0,0,0,0,0
-Lv4 Legendary Hydra,4,Hydra,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Witch,1,Witch,0,1,0,0,0,0,0,0,0,0,0,0
-Lv2 Witch,2,Witch,1,1,1,1,1,1,1,1,0,1,0,1
-Lv3 Witch,3,Witch,1,1,0,0,1,1,1,1,1,1,1,1
-Lv4 Witch,4,Witch,1,1,0,0,0,0,0,0,1,1,1,1
-Lv5 Witch,5,Witch,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Golem,1,Golem,0,1,0,0,0,0,0,0,0,0,0,0
-Lv2 Golem,2,Golem,1,1,1,1,1,1,1,1,0,1,0,1
-Lv3 Golem,3,Golem,1,1,0,0,1,1,1,1,1,1,1,1
-Lv4 Golem,4,Golem,1,1,0,0,0,0,0,0,1,1,1,1
-Lv5 Golem,5,Golem,0,0,0,0,0,0,0,0,0,0,0,0
-Lv5 Lava Turtle,5,Lava Turtle,0,0,0,0,0,0,0,0,0,0,0,0
-Lv4 Lava Turtle,4,Lava Turtle,1,2,0,0,0,0,0,0,1,1,1,1
-Lv3 Lava Turtle,3,Lava Turtle,1,1,0,0,1,1,1,1,1,1,1,1
-Lv2 Lava Turtle,2,Lava Turtle,1,2.5,1,1,1,1,1,1,0,1,0,1
-Lv1 Lava Turtle,1,Lava Turtle,0,0,0,0,0,0,0,0,0,0,0,0
-Lv50 Viking,50,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv49 Viking,49,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv48 Viking,48,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv47 Viking,47,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv46 Viking,46,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv45 Viking,45,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv44 Viking,44,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv43 Viking,43,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv42 Viking,42,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv41 Viking,41,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv40 Viking,40,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv39 Viking,39,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv38 Viking,38,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv37 Viking,37,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv36 Viking,36,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv35 Viking,35,Viking,1,0.01,0,0,1,1,1,1,1,1,1,1
-Lv34 Viking,34,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv33 Viking,33,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv32 Viking,32,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv31 Viking,31,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv30 Viking,30,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv29 Viking,29,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv28 Viking,28,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv27 Viking,27,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv26 Viking,26,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
-Lv25 Viking,25,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv24 Viking,24,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv23 Viking,23,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv22 Viking,22,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv21 Viking,21,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv20 Viking,20,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv19 Viking,19,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv18 Viking,18,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv17 Viking,17,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv16 Viking,16,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv15 Viking,15,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv14 Viking,14,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv13 Viking,13,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv12 Viking,12,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv11 Viking,11,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv10 Viking,10,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv9 Viking,9,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv8 Viking,8,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv7 Viking,7,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv6 Viking,6,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv5 Viking,5,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv4 Viking,4,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv3 Viking,3,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv2 Viking,2,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv1 Viking,1,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv25 Fire Spirit,25,Fire Spirit,1,0.01,0,0,0,0,0,0,0,0,0,0
-Lv7 Golden Goblin,7,Golden Goblin,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv1 Shadow of Nine-tails,1,Shadow of Nine-tails,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv2 Shadow of Nine-tails,2,Shadow of Nine-tails,1,0.01,1,1,1,1,1,1,0,1,0,1
-Lv3 Shadow of Nine-tails,3,Shadow of Nine-tails,1,0.01,0,0,1,1,1,1,1,1,1,1
-Lv4 Shadow of Nine-tails,4,Shadow of Nine-tails,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv17 Typhon,17,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv16 Jormungandr,16,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv15 Phoenix,15,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv14 Behemoth,14,Regular Bosses,1,3,0,0,0,0,0,0,1,1,1,1
-Lv13 Fafnir,13,Regular Bosses,1,3,0,0,0,0,0,0,1,1,1,1
-Lv12 Kamaitachi,12,Regular Bosses,1,2.8,0,0,0,0,0,0,1,1,1,1
-Lv11 Ifrit,11,Regular Bosses,1,3.5,1,1,0,0,0,0,0,1,0,1
-Lv10 Griffin,10,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv9 Minotaur,9,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv8 Peryton,8,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv7 Yasha,7,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv6 Manticore,6,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv5 Werewolf,5,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Arctic Barbarians,1,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv2 Arctic Barbarians,2,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv3 Arctic Barbarians,3,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv4 Arctic Barbarians,4,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv5 Arctic Barbarians,5,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv6 Arctic Barbarians,6,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
-Lv1 Pan Ranged Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0
-Lv2 Pan Ranged Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1
-Lv3 Pan Ranged Troop,3,Pan,1,0.02,0,0,1,1,1,1,1,1,1,1
-Lv4 Pan Ranged Troop,4,Pan,0,0.05,0,0,0,0,0,0,0,0,0,0
-Lv5 Pan Ranged Troop,5,Pan,0,0,0,0,0,0,0,0,0,0,0,0
-Lv6 Pan Ranged Troop,6,Pan,0,0,0,0,0,0,0,0,0,0,0,0
+boss_name,boss_level,type,hit,priorities,slot_1_primary,slot_1_secondary,slot_2_primary,slot_2_secondary,slot_3_primary,slot_3_secondary,slot_4_primary,slot_4_secondary,slot_5_primary,slot_5_secondary,alliance_war
+Lv1 King Ghidorah,1,King Ghidorah,0,0.01,0,0,0,0,0,0,0,0,0,0,0
+Lv2 King Ghidorah,2,King Ghidorah,1,0.02,1,1,1,1,1,1,0,1,0,1,1
+Lv3 King Ghidorah,3,King Ghidorah,1,0.03,0,0,1,1,1,1,0,1,0,1,1
+Lv8 Pumpkin Monster,8,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv7 Pumpkin Monster,7,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Pumpkin Monster,6,Pumpkin Monster,1,0,0,0,1,1,1,1,0,0,0,0,1
+Lv5 Pumpkin Monster,5,Pumpkin Monster,1,0,0,0,1,1,1,1,0,0,0,0,1
+Lv4 Pumpkin Monster,4,Pumpkin Monster,1,1,1,1,1,1,1,1,1,1,1,1,1
+Lv3 Pumpkin Monster,3,Pumpkin Monster,1,1,1,1,1,1,1,1,1,1,1,1,1
+Lv2 Pumpkin Monster,2,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Pumpkin Monster,1,Pumpkin Monster,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Sphinx,6,Sphinx,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Sphinx,5,Sphinx,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv4 Sphinx,4,Sphinx,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv3 Sphinx,3,Sphinx,1,1,0,0,1,1,1,1,1,1,1,1,1
+Lv2 Sphinx,2,Sphinx,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv1 Sphinx,1,Sphinx,0,1,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Mire Squid,1,Mire Squid,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Mire Squid,2,Mire Squid,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Mire Squid,3,Mire Squid,1,1,0,0,1,1,1,1,0,1,0,1,1
+Lv4 Mire Squid,4,Mire Squid,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv1 Golem,1,Golem,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Golem,2,Golem,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Golem,3,Golem,1,1,0,0,1,1,1,1,0,1,0,1,1
+Lv4 Golem,4,Golem,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv1 Nightingale,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1,0
+Lv1 Nell,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1,0
+Lv1 Duke,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1,0
+Lv1 Junior Cerberus,1,Cerberus,1,2,1,1,1,1,1,1,0,1,0,1,1
+Lv2 Medium Cerberus,2,Cerberus,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv3 Senior Cerberus,3,Cerberus,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Junior Knight Bayard,1,Knight Bayard,1,2,1,1,1,1,1,1,0,1,0,1,1
+Lv2 Senior Bayar Knight,2,Knight Bayard,1,1.6,0,0,0,0,0,0,1,1,1,1,1
+Lv3 Excellent Knight Bayard,3,Knight Bayard,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Ymir,1,Ymir,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Ymir,2,Ymir,1,0.02,0,0,1,1,1,1,1,1,1,1,1
+Lv3 Ymir,3,Ymir,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv4 Ymir,4,Ymir,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Ymir,5,Ymir,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Warlord,1,Warlord,0,1,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Warlord,2,Warlord,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Warlord,3,Warlord,1,1,0,0,1,1,1,1,0,1,0,1,1
+Lv4 Warlord,4,Warlord,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv5 Warlord,5,Warlord,0,1,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Junior Hydra,1,Hydra,1,1.5,0,0,1,1,1,1,1,1,1,1,1
+Lv2 Medium Hydra,2,Hydra,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv3 Senior Hydra,3,Hydra,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv4 Legendary Hydra,4,Hydra,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Witch,1,Witch,0,1,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Witch,2,Witch,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Witch,3,Witch,1,1,0,0,1,1,1,1,1,1,1,1,1
+Lv4 Witch,4,Witch,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv5 Witch,5,Witch,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Golem,1,Golem,0,1,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Golem,2,Golem,1,1,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Golem,3,Golem,1,1,0,0,1,1,1,1,1,1,1,1,1
+Lv4 Golem,4,Golem,1,1,0,0,0,0,0,0,1,1,1,1,1
+Lv5 Golem,5,Golem,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Lava Turtle,5,Lava Turtle,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv4 Lava Turtle,4,Lava Turtle,1,2,0,0,0,0,0,0,1,1,1,1,1
+Lv3 Lava Turtle,3,Lava Turtle,1,1,0,0,1,1,1,1,1,1,1,1,1
+Lv2 Lava Turtle,2,Lava Turtle,1,2.5,1,1,1,1,1,1,0,1,0,1,1
+Lv1 Lava Turtle,1,Lava Turtle,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv50 Viking,50,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv49 Viking,49,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv48 Viking,48,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv47 Viking,47,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv46 Viking,46,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv45 Viking,45,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv44 Viking,44,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv43 Viking,43,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv42 Viking,42,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv41 Viking,41,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv40 Viking,40,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv39 Viking,39,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv38 Viking,38,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv37 Viking,37,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv36 Viking,36,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv35 Viking,35,Viking,1,0.01,0,0,1,1,1,1,1,1,1,1,1
+Lv34 Viking,34,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv33 Viking,33,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv32 Viking,32,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv31 Viking,31,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv30 Viking,30,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv29 Viking,29,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv28 Viking,28,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv27 Viking,27,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv26 Viking,26,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1,1
+Lv25 Viking,25,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv24 Viking,24,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv23 Viking,23,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv22 Viking,22,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv21 Viking,21,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv20 Viking,20,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv19 Viking,19,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv18 Viking,18,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv17 Viking,17,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv16 Viking,16,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv15 Viking,15,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv14 Viking,14,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv13 Viking,13,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv12 Viking,12,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv11 Viking,11,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv10 Viking,10,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv9 Viking,9,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv8 Viking,8,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv7 Viking,7,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv6 Viking,6,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv5 Viking,5,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv4 Viking,4,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Viking,3,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv2 Viking,2,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv1 Viking,1,Viking,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv25 Fire Spirit,25,Fire Spirit,1,0.01,0,0,0,0,0,0,0,0,0,0,0
+Lv7 Golden Goblin,7,Golden Goblin,1,0.01,1,1,1,1,1,1,0,1,0,1,0
+Lv1 Shadow of Nine-tails,1,Shadow of Nine-tails,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv2 Shadow of Nine-tails,2,Shadow of Nine-tails,1,0.01,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Shadow of Nine-tails,3,Shadow of Nine-tails,1,0.01,0,0,1,1,1,1,1,1,1,1,1
+Lv4 Shadow of Nine-tails,4,Shadow of Nine-tails,1,0.01,0,0,0,0,0,0,1,1,1,1,1
+Lv17 Typhon,17,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv16 Jormungandr,16,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv15 Phoenix,15,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv14 Behemoth,14,Regular Bosses,1,3,0,0,0,0,0,0,1,1,1,1,1
+Lv13 Fafnir,13,Regular Bosses,1,3,0,0,0,0,0,0,1,1,1,1,1
+Lv12 Kamaitachi,12,Regular Bosses,1,2.8,0,0,0,0,0,0,1,1,1,1,1
+Lv11 Ifrit,11,Regular Bosses,1,3.5,1,1,0,0,0,0,0,1,0,1,1
+Lv10 Griffin,10,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv9 Minotaur,9,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv8 Peryton,8,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv7 Yasha,7,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Manticore,6,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Werewolf,5,Regular Bosses,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Arctic Barbarians,1,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Arctic Barbarians,2,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv3 Arctic Barbarians,3,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv4 Arctic Barbarians,4,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Arctic Barbarians,5,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Arctic Barbarians,6,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Pan Ranged Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Pan Ranged Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Pan Ranged Troop,3,Pan,1,0.02,0,0,1,1,1,1,1,1,1,1,1
+Lv4 Pan Ranged Troop,4,Pan,0,0.05,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Pan Ranged Troop,5,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Pan Ranged Troop,6,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1

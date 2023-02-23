@@ -407,6 +407,7 @@ def main():
                 try:
                     time.sleep(2)
                     collect_new_monsters_from_AC()
+                    time.sleep(5)
                 except:
                     traceback.print_exc()
                     print("Look into it")
