@@ -25,7 +25,7 @@ Lv2 Golem,2,Golem,1,1,1,1,1,1,1,1,0,1,0,1
 Lv3 Golem,3,Golem,1,1,0,0,1,1,1,1,0,1,0,1
 Lv4 Golem,4,Golem,1,1,0,0,0,0,0,0,1,1,1,1
 Lv1 Nightingale,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
-Lv1 Neil,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
+Lv1 Nell,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
 Lv1 Duke,1,Royal Thief,1,0.01,1,1,1,1,1,1,1,1,1,1
 Lv1 Junior Cerberus,1,Cerberus,1,2,1,1,1,1,1,1,0,1,0,1
 Lv2 Medium Cerberus,2,Cerberus,1,1,0,0,0,0,0,0,1,1,1,1
@@ -73,11 +73,11 @@ Lv43 Viking,43,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
 Lv42 Viking,42,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
 Lv41 Viking,41,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
 Lv40 Viking,40,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
-Lv39 Viking,39,Viking,1,0.01,0,0,0,0,0,0,0,1,0,1
-Lv38 Viking,38,Viking,1,0.01,0,0,0,0,0,0,0,1,0,1
-Lv37 Viking,37,Viking,1,0.01,0,0,0,0,0,0,0,1,0,1
-Lv36 Viking,36,Viking,1,0.01,0,0,0,0,0,0,0,1,0,1
-Lv35 Viking,35,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
+Lv39 Viking,39,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
+Lv38 Viking,38,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
+Lv37 Viking,37,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
+Lv36 Viking,36,Viking,1,0.01,0,0,0,0,0,0,1,1,1,1
+Lv35 Viking,35,Viking,1,0.01,0,0,1,1,1,1,1,1,1,1
 Lv34 Viking,34,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
 Lv33 Viking,33,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
 Lv32 Viking,32,Viking,1,0.01,0,0,1,1,1,1,0,1,0,1
@@ -137,3 +137,9 @@ Lv3 Arctic Barbarians,3,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
 Lv4 Arctic Barbarians,4,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
 Lv5 Arctic Barbarians,5,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
 Lv6 Arctic Barbarians,6,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0
+Lv1 Pan Ranged Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0
+Lv2 Pan Ranged Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1
+Lv3 Pan Ranged Troop,3,Pan,1,0.02,0,0,1,1,1,1,1,1,1,1
+Lv4 Pan Ranged Troop,4,Pan,0,0.05,0,0,0,0,0,0,0,0,0,0
+Lv5 Pan Ranged Troop,5,Pan,0,0,0,0,0,0,0,0,0,0,0,0
+Lv6 Pan Ranged Troop,6,Pan,0,0,0,0,0,0,0,0,0,0,0,0

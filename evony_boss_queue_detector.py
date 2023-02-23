@@ -13,15 +13,7 @@ connection_string = connection_ip + ":" + connection_port
 latest_crash = "FALSE"
 
 
-cnx = mysql.connector.connect(
-    user=os.environ["MY_SQL_USERNAME"],
-    password=os.environ["MY_SQL_PWD"],
-    host='192.168.68.101',
-    database='evony',
-    auth_plugin='mysql_native_password')
-
-
-def check_boss_exists(date, x, y, boss_name, status):
+def check_boss_exists(date, x, y, boss_name, status='null'):
 
     if(status == 'null'):
         query = "SELECT * FROM rb_bosses_queue WHERE date_added = %s AND x = %s AND y = %s AND name = %s"
@@ -30,13 +22,21 @@ def check_boss_exists(date, x, y, boss_name, status):
         query = "SELECT * FROM rb_bosses_queue WHERE date_added = %s AND x = %s AND y = %s AND name = %s AND status = %s"
         params = (date, x, y, boss_name, status)
 
+    cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
     cursor = cnx.cursor()
     cursor.execute(query, params)
     df = pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
-    if len(df) > 0:
-        return df.loc[0,['status']]
-    else:
+    cnx.close()
+
+    try:
+        res = df.loc[0,['status']]
+    except:
         return 'NULL'
+    
+    if len(df) > 0:
+        return str(res.item())
+    else:
+        return "NULL"
 
     
 def insert_into_rb_boss_queue(distance, x, y, name, status, priority, hit_boss, roland, outcome, lost_power, self_initiated_aw, boss_level, type, slot_used, general_used):
@@ -47,17 +47,20 @@ def insert_into_rb_boss_queue(distance, x, y, name, status, priority, hit_boss, 
         query = "INSERT INTO rb_bosses_queue VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         params = (date_added, distance, x, y, name, status, priority, hit_boss, roland, current_datetime, current_datetime, outcome, lost_power, self_initiated_aw, boss_level, type, slot_used, general_used)
 
+        cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
         cursor = cnx.cursor()
         cursor.execute(query, params)
         cnx.commit()
-
+        cnx.close()
 
 def update_boss_data(field, value, date, x, y, boss_name):
         query = "UPDATE rb_bosses_queue SET " + field + " = %s WHERE date_added = %s AND x = %s AND y = %s AND name = %s"
         params = (value, date, x, y, boss_name)
+        cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
         cursor = cnx.cursor()
         cursor.execute(query, params)
         cnx.commit()
+        cnx.close()
 
 
 def detect_fix_evony_object_name(name):
@@ -269,20 +272,26 @@ def check_if_reset_occurred():
     return purchase_page
 
 
+def detect_and_fix_duplicate_boss_rallies(date, x, y, boss_name):
+    boss_exists = check_boss_exists(date, x, y, boss_name, 'null')
+    if boss_exists == 'Alive':
+        update_boss_data("status", "Alliance Warred", date, x, y, boss_name)
+        update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), date, x, y, boss_name)
+    elif boss_exists == 'Dead':
+        update_boss_data("status", "Dead", date, x, y, boss_name)
+
+
 def collect_new_monsters_from_AC():
     boss_list = pd.read_csv("./config/bosses.csv")
     alliance_war = '0'
+    outcome_prev = 'null'
+    result = 'UNKNOWN'
 
     bosses_names = boss_list['boss_name'].tolist()
-    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
-    gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
-
-    ac_chat = cv2.imread('./base_images/game/alliance_chat_image.png', cv2.IMREAD_UNCHANGED)
-    on_ac_chat_currently = len(get_location(gameplay_img, ac_chat, False))
-
-    # if(on_ac_chat_currently == 0):
-    #     click_location_on_screen(515, 1825)
-    #     click_location_on_screen(670, 110)
+    if connection_port == '5585':
+        click_location_on_screen(26, 26)
+        click_location_on_screen(550, 1880)
+        time.sleep(2)
 
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     txt = detect_text_local("capture_rb_boss_queue_screencap").split('\n')
@@ -291,7 +300,6 @@ def collect_new_monsters_from_AC():
         for line in txt:
             try:
                 if re.search("^.+K:.+X:.+", line):
-
                     if "Alliance War" in line:
                         alliance_war = '1'
                     elif "shared Coordinates" in line:
@@ -300,6 +308,7 @@ def collect_new_monsters_from_AC():
                         alliance_war = '0'
 
                     boss = ''
+                    
                     if(")" in txt[line_c + 1]):
                         boss = line + " " + txt[line_c + 1]
                     else:
@@ -307,6 +316,7 @@ def collect_new_monsters_from_AC():
 
                     found = re.sub("started an Alliance War: | Join Now|shared Coordinates: ","",boss)
                     found = found.replace("(Boss)","Boss")
+                    found = found.replace("(Ranged Troop)","Ranged Troop")
 
                     boss_name = found.split("(")[0]
                     boss_name = detect_fix_evony_object_name(boss_name)
@@ -315,11 +325,6 @@ def collect_new_monsters_from_AC():
                     coords = re.sub("X:|Y:|K:|\)|}","",coords)
                     coords = re.split(" |,",coords)
                     
-                    if(alliance_war == '1'):
-                        print("Found (Alliance War): " + found + " - " + '"' + boss_name + '"')
-                    else:
-                        print("Found (Boss Share): " + found + " - " + '"' + boss_name + '"')
-                        alliance_war = '0'
                     j = 0
                     for i in coords:
                         coords[j] = ''.join(c for c in i if c.isdigit())
@@ -328,7 +333,7 @@ def collect_new_monsters_from_AC():
                             coords[2] = coords[3]
                         distance = round(math.sqrt((576-int(coords[1]))**2 + (767-int(coords[2]))**2)) + 5
 
-                    boss_exists = check_boss_exists(datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name, 'null')
+                    boss_exists = check_boss_exists(datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
 
                     boss_detail = boss_list.query("boss_name == @boss_name").reset_index()
                     hitboss = str(boss_detail.loc[0, 'hit'])
@@ -336,37 +341,47 @@ def collect_new_monsters_from_AC():
                     hitbosstype = boss_detail.loc[0,'type']
                     priority = float(boss_detail.loc[0,'priorities'])
 
-                    if(boss_exists == 'Alive' and alliance_war == '1'):
-                        print("Triggered")
-                        update_boss_data("status", "Alliance Warred", datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
-                        update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
+                    if(boss_exists == 'Dead' and alliance_war == '1'):
+                        detect_and_fix_duplicate_boss_rallies(datetime.now().strftime('%Y-%m-%d'), int(coords[1]), int(coords[2]), boss_name)
                         alliance_war = '0'
+                        result = 'Alliance Warred - Self'
+                    elif(boss_exists == 'Alive' and alliance_war == '1'):
+                        detect_and_fix_duplicate_boss_rallies(datetime.now().strftime('%Y-%m-%d'), int(coords[1]), int(coords[2]), boss_name)
+                        alliance_war = '0'
+                        result = 'Alliance Warred'
                     elif(boss_exists == 'NULL' and alliance_war == '1'):
                         insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Not in DB', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
                         alliance_war = '0'
-                    elif(boss_exists == 'Dead' and alliance_war == '1'):
-                        insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alliance Warred - Self', 999, hitboss, -1, '', 0, '2', hitbosslvl, hitbosstype, 0, 'TBA')
-                        alliance_war = '0'                   
+                        result = 'Alliance Warred - Not in DB'         
                     elif(boss_exists == 'NULL' and alliance_war == '0'):
                         if(boss_name in bosses_names):
                             if(distance <= 450):
                                 if(priority >= 0.01 and priority < 999):
                                     insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alive', priority, hitboss, -1, '', 0, '1', hitbosslvl, hitbosstype, 0, 'TBA')
-                                    print(boss_name + " added!")
+                                    result = 'Boss Added'   
                                 else:
                                     insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Criteria', 999, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
-                                    print(boss_name + " does not meet criteria")
+                                    result = 'Not Meeting Criteria'
                             else:
                                 insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Distance', 888, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
                                 print(boss_name + " exceed Rallybot Range!")
+                                result = 'Distance - Too Far'
                         else:
                             insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Non-Boss', 999, 0, -1, '', 0, '0', 0, "None", 0, "None")
-                            print(boss_name + " does not meet criteria")
+                            result = 'Non-Boss Share'
                     else:
-                        print("Duplicate Monster / Boss not in DB")
+                        result = "Boss Already Exists in DB"
+
+                    outcome_curr = "Outcome: " + "(" + result + ") " + boss_name + " (" + str(int(coords[1])) + ", " + str(int(coords[2])) + ") - " + '"' + boss_name + '"'
+                    if outcome_prev == 'null':
+                        outcome_prev = outcome_curr
+                        print(outcome_curr)
+                    elif outcome_prev != outcome_curr:
+                        outcome_prev = outcome_curr
+                        print(outcome_curr)
             except:
                 a = 1
-                #traceback.print_exc()
+                traceback.print_exc()
             line_c += 1
         return
     else:
@@ -398,6 +413,7 @@ def main():
                     time.sleep(5)
         else:
             time.sleep(30)
+
 
 
 if __name__ == "__main__":
