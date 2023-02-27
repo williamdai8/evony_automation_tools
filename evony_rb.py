@@ -427,16 +427,24 @@ def main():
     global latest_crash
     generals_slots = pd.read_csv("./config/slots.csv").query('num_of_slots == @slots').reset_index().loc[0,"included_slots"].split(",")
 
-    #Jiggles the screen a little so the doesn't provide a false positive back to the crash detector
-    click_location_on_screen(550, 1580)
-    time.sleep(1)
-    x_axis = ' shell input swipe 430 300 430 900'
-    os.system('adb -s ' + connection_string + x_axis)
-    time.sleep(2)
+    # #Jiggles the screen a little so the doesn't provide a false positive back to the crash detector
+    # click_location_on_screen(550, 1580)
+    # time.sleep(1)
+    # x_axis = ' shell input swipe 430 300 430 900'
+    # os.system('adb -s ' + connection_string + x_axis)
+    # time.sleep(2)
 
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     latest_crash = check_if_evony_has_crashed()
     print("HAS EVONY CRASHED? " + latest_crash)
+
+    gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
+    share_chat_screen = cv2.imread('./base_images/game/share_chat_screen.png', cv2.IMREAD_UNCHANGED)
+    share_chat_screen_res = len(get_location(gameplay_img, share_chat_screen, False))
+    print(share_chat_screen_res)
+
+    if(share_chat_screen_res >= 1):
+        click_location_on_screen(965, 335)
 
     if("FALSE" in latest_crash):
         if(check_if_reset_occurred() > 0):

@@ -5,21 +5,21 @@ from PIL import Image, ImageEnhance
 from pytesseract import Output
 from pandas.core.frame import DataFrame
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
-connection_ip = '127.0.0.1'
-connection_port = "50742"
-connection_string = connection_ip + ":" + connection_port
+connection_ip = ''
+connection_port = ''
+connection_string = ''
 latest_crash = "FALSE"
 
 
 def check_boss_exists(date, x, y, boss_name, status='null'):
 
     if(status == 'null'):
-        query = "SELECT * FROM rb_bosses_queue WHERE date_added = %s AND x = %s AND y = %s AND name = %s"
+        query = "SELECT * FROM rb_bosses_queue WHERE date_added >= %s AND x = %s AND y = %s AND name = %s order by date_added desc"
         params = (date, x, y, boss_name)
     else:
-        query = "SELECT * FROM rb_bosses_queue WHERE date_added = %s AND x = %s AND y = %s AND name = %s AND status = %s"
+        query = "SELECT * FROM rb_bosses_queue WHERE date_added >= %s AND x = %s AND y = %s AND name = %s AND status = %s order by date_added desc"
         params = (date, x, y, boss_name, status)
 
     cnx = mysql.connector.connect(user=os.environ["MY_SQL_USERNAME"], password=os.environ["MY_SQL_PWD"], host='192.168.68.101', database='evony', auth_plugin='mysql_native_password')
@@ -66,8 +66,8 @@ def update_boss_data(field, value, date, x, y, boss_name):
 def detect_fix_evony_object_name(name):
     boss_list = pd.read_csv("./config/bosses.csv")
     bosses_names = boss_list['boss_name'].tolist()
+    print(name)
     name = re.sub("^.+Lv","Lv",name)
-
     for boss in bosses_names:
 
         boss_array = boss.lower().split()
@@ -106,7 +106,7 @@ def check_if_evony_has_crashed():
 
     try:
         gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
-        evony_app_logo = cv2.imread('./game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
+        evony_app_logo = cv2.imread('./base_images/game/bluestack_logo.png', cv2.IMREAD_UNCHANGED)
         evony_app_page = len(get_location(gameplay_img, evony_app_logo, False))
     except:
         crashed = "FALSE"
@@ -116,6 +116,9 @@ def check_if_evony_has_crashed():
 
     if(evony_app_page > 0):
         crashed = "TRUE"
+        time.sleep(5)
+        click_location_on_screen(1700, 170)
+        time.sleep(30)
     
     return crashed
 
@@ -288,9 +291,9 @@ def collect_new_monsters_from_AC():
     result = 'UNKNOWN'
 
     bosses_names = boss_list['boss_name'].tolist()
-    if connection_port == '5585':
-        click_location_on_screen(26, 26)
-        click_location_on_screen(550, 1880)
+    if connection_port == '5555':
+        x_axis = ' shell input swipe 1400 1150 1400 600'
+        os.system('adb -s ' + connection_string + x_axis)
         time.sleep(2)
 
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
@@ -309,14 +312,14 @@ def collect_new_monsters_from_AC():
 
                     boss = ''
                     
-                    if(")" in txt[line_c + 1]):
+                    if(")" in txt[line_c + 1] or "}" in txt[line_c + 1]):
                         boss = line + " " + txt[line_c + 1]
                     else:
                         boss = line
-
-                    found = re.sub("started an Alliance War: | Join Now|shared Coordinates: ","",boss)
+                    
+                    found = re.sub("started an Alliance War: | Join Now|shared Coordinates: |hared Coordinates: ","",boss)
                     found = found.replace("(Boss)","Boss")
-                    found = found.replace("(Ranged Troop)","Ranged Troop")
+                    found = found.replace("(Boss}","Boss")
 
                     boss_name = found.split("(")[0]
                     boss_name = detect_fix_evony_object_name(boss_name)
@@ -333,7 +336,10 @@ def collect_new_monsters_from_AC():
                             coords[2] = coords[3]
                         distance = round(math.sqrt((576-int(coords[1]))**2 + (767-int(coords[2]))**2)) + 5
 
-                    boss_exists = check_boss_exists(datetime.now().strftime('%Y-%m-%d'), coords[1], coords[2], boss_name)
+                    current_date = datetime.now()
+                    one_day_ago = current_date - timedelta(days=1)
+                    current_date_minus_1 = one_day_ago.strftime('%Y-%m-%d')
+                    boss_exists = check_boss_exists(current_date_minus_1, coords[1], coords[2], boss_name)
 
                     boss_detail = boss_list.query("boss_name == @boss_name").reset_index()
                     hitboss = str(boss_detail.loc[0, 'hit'])
@@ -364,7 +370,6 @@ def collect_new_monsters_from_AC():
                                     result = 'Not Meeting Criteria'
                             else:
                                 insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Distance', 888, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
-                                print(boss_name + " exceed Rallybot Range!")
                                 result = 'Distance - Too Far'
                         else:
                             insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Non-Boss', 999, 0, -1, '', 0, '0', 0, "None", 0, "None")
@@ -372,7 +377,7 @@ def collect_new_monsters_from_AC():
                     else:
                         result = "Boss Already Exists in DB"
 
-                    outcome_curr = "Outcome: " + "(" + result + ") " + boss_name + " (" + str(int(coords[1])) + ", " + str(int(coords[2])) + ") - " + '"' + boss_name + '"'
+                    outcome_curr = "Outcome: " + "(" + result + ") " + boss_name + " (" + str(int(coords[1])) + ", " + str(int(coords[2])) + ") - " + '"' + boss_name + '"' + " || " + "(ORIGINAL STR: " + '"' + boss + '"' ")"
                     if outcome_prev == 'null':
                         outcome_prev = outcome_curr
                         print(outcome_curr)
@@ -392,30 +397,25 @@ def main():
     global connection_port
     global connection_string
 
-    for port in ['5575','5585']:
+    agents = pd.read_csv("./config/agents.txt").query("status == 'Active'")
+    active_agents = agents['evony_agent'].tolist()
+    active_agent_port = agents['port'].tolist()
+
+    for agent, port in zip(active_agents, active_agent_port):
         connection_port = port
-        connection_string = connection_ip + ":" + connection_port
+        connection_string = agent
         take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
         latest_crash = check_if_evony_has_crashed()
         print("HAS EVONY CRASHED? " + latest_crash)
 
-        if("FALSE" in latest_crash):
-            if(check_if_reset_occurred() > 0):
-                perform_game_reset_seq()
-                click_location_on_screen(670, 110)
-            else:
-                try:
-                    time.sleep(2)
-                    collect_new_monsters_from_AC()
-                    time.sleep(5)
-                except:
-                    traceback.print_exc()
-                    print("Look into it")
-                    time.sleep(5)
-        else:
-            time.sleep(30)
-
-
+        try:
+            time.sleep(2)
+            collect_new_monsters_from_AC()
+            time.sleep(5)
+        except:
+            traceback.print_exc()
+            print("Look into it")
+            time.sleep(5)
 
 if __name__ == "__main__":
     while(True):

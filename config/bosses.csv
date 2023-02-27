@@ -32,7 +32,7 @@ Lv2 Medium Cerberus,2,Cerberus,1,1,0,0,0,0,0,0,1,1,1,1,1
 Lv3 Senior Cerberus,3,Cerberus,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv1 Junior Knight Bayard,1,Knight Bayard,1,2,1,1,1,1,1,1,0,1,0,1,1
 Lv2 Senior Bayar Knight,2,Knight Bayard,1,1.6,0,0,0,0,0,0,1,1,1,1,1
-Lv3 Excellent Knight Bayard,3,Knight Bayard,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv3 Excellent Bayar Knight,3,Knight Bayard,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv1 Ymir,1,Ymir,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv2 Ymir,2,Ymir,1,0.02,0,0,1,1,1,1,1,1,1,1,1
 Lv3 Ymir,3,Ymir,1,0.01,0,0,0,0,0,0,1,1,1,1,1
@@ -139,7 +139,21 @@ Lv5 Arctic Barbarians,5,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv6 Arctic Barbarians,6,Arctic Barbarians,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv1 Pan Ranged Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
 Lv2 Pan Ranged Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1,1
-Lv3 Pan Ranged Troop,3,Pan,1,0.02,0,0,1,1,1,1,1,1,1,1,1
-Lv4 Pan Ranged Troop,4,Pan,0,0.05,0,0,0,0,0,0,0,0,0,0,1
-Lv5 Pan Ranged Troop,5,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
-Lv6 Pan Ranged Troop,6,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv3 Pan Ranged Troop,3,Pan,1,0.02,0,0,0,0,0,0,1,1,1,1,1
+Lv4 Pan Ranged Troop,4,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Pan Ranged Troop,5,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Pan Ranged Troop,6,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv1 Pan Ground Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Pan Ground Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Pan Ground Troop,3,Pan,1,999,0,0,0,0,0,0,1,1,1,1,1
+Lv4 Pan Ground Troop,4,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Pan Ground Troop,5,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Pan Ground Troop,6,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Pan Ground Troop,3,Pan,1,0.02,0,0,0,0,0,0,1,1,1,1,1
+Lv1 Pan Mounted Troop,1,Pan,0,0,0,0,0,0,0,0,0,0,0,0,1
+Lv2 Pan Mounted Troop,2,Pan,1,0.03,1,1,1,1,1,1,0,1,0,1,1
+Lv3 Pan Mounted Troop,3,Pan,1,0.02,0,0,0,0,0,0,1,1,1,1,1
+Lv4 Pan Mounted Troop,4,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv5 Pan Mounted Troop,5,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Lv6 Pan Mounted Troop,6,Pan,0,999,0,0,0,0,0,0,0,0,0,0,1
+Pan Mounted Troop,3,Pan,1,0.02,0,0,0,0,0,0,1,1,1,1,1
