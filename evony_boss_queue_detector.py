@@ -6,11 +6,27 @@ from pytesseract import Output
 from pandas.core.frame import DataFrame
 import pandas as pd
 from datetime import datetime, timedelta
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 
-connection_ip = ''
-connection_port = ''
-connection_string = ''
+connection_ip = '127.0.0.1'
+connection_port = "50742"
+connection_string = connection_ip + ":" + connection_port
 latest_crash = "FALSE"
+
+bot_token = os.environ["SLACK_APP_TOKEN"]
+channel_id_finds = 'C050Z2WQTMM'
+channel_id_kills = 'C051S7DNWSV'
+
+client = WebClient(token=bot_token)
+
+
+def post_confirmation_of_leech_results(res, channel_name):
+    if(channel_name == "kills"):
+        client.chat_postMessage(channel=channel_id_kills, text=res)
+    else:
+        client.chat_postMessage(channel=channel_id_finds, text=res)
 
 
 def check_boss_exists(date, x, y, boss_name, status='null'):
@@ -284,17 +300,21 @@ def detect_and_fix_duplicate_boss_rallies(date, x, y, boss_name):
         update_boss_data("status", "Dead", date, x, y, boss_name)
 
 
-def collect_new_monsters_from_AC():
+def collect_new_monsters_from_AC(x, y):
     boss_list = pd.read_csv("./config/bosses.csv")
     alliance_war = '0'
     outcome_prev = 'null'
     result = 'UNKNOWN'
 
     bosses_names = boss_list['boss_name'].tolist()
-    if connection_port == '5555':
-        x_axis = ' shell input swipe 1400 1150 1400 600'
-        os.system('adb -s ' + connection_string + x_axis)
+    if connection_port == '5575':
+        click_location_on_screen(x, y)
         time.sleep(2)
+    elif connection_port == '5585':
+        click_location_on_screen(26, 26)
+        time.sleep(2)
+        click_location_on_screen(558, 1843)
+
 
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
     txt = detect_text_local("capture_rb_boss_queue_screencap").split('\n')
@@ -317,9 +337,17 @@ def collect_new_monsters_from_AC():
                     else:
                         boss = line
                     
-                    found = re.sub("started an Alliance War: | Join Now|shared Coordinates: |hared Coordinates: ","",boss)
+                    found = re.sub("~ |started an Alliance War: | Join Now|shared Coordinates: |hared Coordinates: ","",boss)
+                    found = found.replace("{","(")
+                    found = found.replace("}",")")
                     found = found.replace("(Boss)","Boss")
                     found = found.replace("(Boss}","Boss")
+                    found = found.replace("(Ranged Troop)","Ranged Troop")
+                    found = found.replace("(Ranged Troop}","Ranged Troop")
+                    found = found.replace("(Ground Troop)","Ground Troop")
+                    found = found.replace("(Ground Troop}","Ground Troop")
+                    found = found.replace("(Mounted Troop)","Mounted Troop")
+                    found = found.replace("(Mounted Troop}","Mounted Troop")
 
                     boss_name = found.split("(")[0]
                     boss_name = detect_fix_evony_object_name(boss_name)
@@ -361,10 +389,12 @@ def collect_new_monsters_from_AC():
                         result = 'Alliance Warred - Not in DB'         
                     elif(boss_exists == 'NULL' and alliance_war == '0'):
                         if(boss_name in bosses_names):
-                            if(distance <= 450):
+                            if(distance <= 350):
                                 if(priority >= 0.01 and priority < 999):
                                     insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Alive', priority, hitboss, -1, '', 0, '1', hitbosslvl, hitbosstype, 0, 'TBA')
                                     result = 'Boss Added'   
+                                    add_result = "Outcome: " + "(" + result + ") " + boss_name + " (" + str(int(coords[1])) + ", " + str(int(coords[2])) + ") - " + '"' + boss_name + '"' + " || " + "(ORIGINAL STR: " + '"' + boss + '"' ")"
+                                    post_confirmation_of_leech_results(add_result, "finds")
                                 else:
                                     insert_into_rb_boss_queue(distance, coords[1], coords[2], boss_name, 'Criteria', 999, hitboss, -1, '', 0, '0', hitbosslvl, hitbosstype, 0, 'TBA')
                                     result = 'Not Meeting Criteria'
@@ -387,9 +417,15 @@ def collect_new_monsters_from_AC():
             except:
                 a = 1
                 traceback.print_exc()
+                #click_location_on_screen(26, 26)
+                #time.sleep(2)
             line_c += 1
+        click_location_on_screen(26, 26)
+        time.sleep(2)
         return
     else:
+        #click_location_on_screen(26, 26)
+        time.sleep(2)
         return
 
 def main():
@@ -397,25 +433,55 @@ def main():
     global connection_port
     global connection_string
 
-    agents = pd.read_csv("./config/agents.txt").query("status == 'Active'")
-    active_agents = agents['evony_agent'].tolist()
-    active_agent_port = agents['port'].tolist()
-
-    for agent, port in zip(active_agents, active_agent_port):
+    for port in ['5575']:
         connection_port = port
-        connection_string = agent
-        take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
-        latest_crash = check_if_evony_has_crashed()
-        print("HAS EVONY CRASHED? " + latest_crash)
+        connection_string = connection_ip + ":" + connection_port
+        # take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
+        # latest_crash = check_if_evony_has_crashed()
+        # print("HAS EVONY CRASHED? " + latest_crash)
 
-        try:
-            time.sleep(2)
-            collect_new_monsters_from_AC()
-            time.sleep(5)
-        except:
-            traceback.print_exc()
-            print("Look into it")
-            time.sleep(5)
+        if("FALSE" in latest_crash):
+            if(check_if_reset_occurred() > 0):
+                perform_game_reset_seq()
+                click_location_on_screen(670, 110)
+            else:
+                try:
+                    # time.sleep(2)
+                    # take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_boss_queue_screencap")
+                    # gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_boss_queue_screencap.png', cv2.IMREAD_UNCHANGED)
+                    # new_boss_icon = cv2.imread('./base_images/game/new_boss.png', cv2.IMREAD_UNCHANGED)
+                    # new_bosses = get_location(gameplay_img, new_boss_icon, False)
+                    # new_bosses_len = len(new_bosses)
+                    starting = 180
+                    x = 107
+                    y = 110
+
+                    for i in range(1, 6):
+                        collect_new_monsters_from_AC(x, starting + ((y-1) * (i-1)))
+                    
+                    # time.sleep(0.5)
+                    # click_location_on_screen(26, 26)
+                    # time.sleep(0.5)
+                    # click_location_on_screen(510, 1800)
+                    # time.sleep(1)
+                    # collect_new_monsters_from_AC(650, 90)
+                    # time.sleep(1)
+                    # click_location_on_screen(510, 1800)
+                    # time.sleep(0.5)
+                    # click_location_on_screen(965, 90)
+
+                    if(port == '5585'):
+                        time.sleep(15)
+                    else:
+                        time.sleep(15)
+                        
+                except:
+                    traceback.print_exc()
+                    print("Look into it")
+                    time.sleep(5)
+        else:
+            time.sleep(30)
+
 
 if __name__ == "__main__":
     while(True):

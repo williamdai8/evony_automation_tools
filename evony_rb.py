@@ -6,11 +6,31 @@ from pytesseract import Output
 from pandas.core.frame import DataFrame
 import pandas as pd
 from datetime import datetime
+from loguru import logger
+import logging
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 connection_ip = '127.0.0.1'
-connection_port = "5565"
+connection_port = "5555"
 connection_string = connection_ip + ":" + connection_port
 latest_crash = "FALSE"
+
+bot_token = os.environ["SLACK_APP_TOKEN"]
+channel_id_finds = 'C050Z2WQTMM'
+channel_id_kills = 'C051S7DNWSV'
+
+client = WebClient(token=bot_token)
+
+
+def post_confirmation_of_leech_results(res, channel_name):
+    if(channel_name == "kills"):
+        client.chat_postMessage(channel=channel_id_kills, text=res)
+    else:
+        client.chat_postMessage(channel=channel_id_finds, text=res)
+
+logging.basicConfig(format=("%(asctime)s | %(levelname)s | %(module)s"":%(funcName)s:%(lineno)d | %(message)s"), level = logging.WARNING)
 
 
 def check_boss_exists(date, x, y, boss_name, status):
@@ -191,7 +211,7 @@ def go_to_specified_coordinates(x, y):
     execute_text_input_process(y)
     click_location_on_screen(550, 1200)
     click_location_on_screen(550, 1200)
-    time.sleep(2)
+    time.sleep(1)
 
 
 def on_main_page_check():
@@ -294,14 +314,14 @@ def attack_monster(present, alliance_war):
         x = -1
         cmd = "adb -s " + connection_string + " shell input tap " + str(520) + " " + str(920)
         os.system(cmd)
-        time.sleep(2)
+        time.sleep(1)
         
         cmd = "adb -s " + connection_string + " shell input tap " + str(275) + " " + str(775)
         os.system(cmd)
-        time.sleep(2)
+        time.sleep(0.5)
         try:
             take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
-            time.sleep(1)
+            time.sleep(0.5)
 
             image_match_file = ''
             if(alliance_war == 1):
@@ -309,12 +329,15 @@ def attack_monster(present, alliance_war):
             else:
                 image_match_file = './base_images/game/non_alliance_war_button.png'
 
+            if(present == 6):
+                image_match_file = './base_images/game/evony_button_visit.png'
+
             gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
             target_img = cv2.imread(image_match_file, cv2.IMREAD_UNCHANGED)
             w = target_img.shape[1]
             h = target_img.shape[0]
             rec = get_location(gameplay_img, target_img, 1)
-            
+
             #Click the attack button on the battle monster screen.
             cmd = "adb -s " + connection_string + " shell input tap " + str(rec[0][0]+rec[0][2]/2) + " " + str(rec[0][1]+rec[0][3]/2)
             os.system(cmd)
@@ -323,40 +346,54 @@ def attack_monster(present, alliance_war):
             os.system(cmd)
 
             time.sleep(1)
-            if(present == 5):
+            if(present == 6):
+                return 1
+            elif(present == 5):
                 cmd = "adb -s " + connection_string + " shell input tap " + str(595) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
             elif(present == 4):
                 cmd = "adb -s " + connection_string + " shell input tap " + str(467) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
             elif(present == 1):
                 cmd = "adb -s " + connection_string + " shell input tap " + str(100) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
                 cmd = "adb -s " + connection_string + " shell input tap " + str(100) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
             elif(present == 2):
                 cmd = "adb -s " + connection_string + " shell input tap " + str(225) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
                 cmd = "adb -s " + connection_string + " shell input tap " + str(225) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
             elif(present == 3):
                 cmd = "adb -s " + connection_string + " shell input tap " + str(345) + " " + str(215)
                 os.system(cmd)
-                time.sleep(1)
+                time.sleep(0.1)
                 cmd = "adb -s " + connection_string + " shell input tap " + str(345) + " " + str(215)
+                os.system(cmd)
+                time.sleep(0.1)
+            elif(present == 7):
+                cmd = "adb -s " + connection_string + " shell input tap " + str(720) + " " + str(215)
+                os.system(cmd)
+                time.sleep(1)
+                cmd = "adb -s " + connection_string + " shell input tap " + str(720) + " " + str(215)
                 os.system(cmd)
                 time.sleep(1)
                 
             x = 100
-            time.sleep(1)
+            time.sleep(0.5)
             cmd = "adb -s " + connection_string + " shell input tap " + str(800) + " " + str(1850)
             os.system(cmd)
+
+            if(alliance_war == 0):
+                time.sleep(2)
+                cmd = "adb -s " + connection_string + " shell input tap " + str(550) + " " + str(1585)
+                os.system(cmd)
         except:
             print("Monster has escaped!")
             monster_escape = 1
@@ -367,26 +404,33 @@ def attack_monster(present, alliance_war):
 
 
 def initiate_rally(target, general_no, general_name):
-    print("Currently killing: " + target["name"] + " at location " + str(target["x"]) + " " + str(target["y"]) + " as a distance of " + str(target["distance"]) + "KM")
+    msg = "Currently killing: " + target["name"] + " at location " + str(target["x"]) + " " + str(target["y"]) + " as a distance of " + str(target["distance"]) + "KM"
+    print(msg)
     go_to_specified_coordinates(target["x"], target["y"])
     time.sleep(2)
     sleep_counter = attack_monster(general_no, int(target["alliance_war"]))
+
+    time.sleep(0.5)
+    cmd = "adb -s " + connection_string + " shell input tap " + str(550) + " " + str(1550)
+    os.system(cmd)
 
     if(sleep_counter != -1):
         update_boss_data("status", "Dead", target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("slot_used", str(general_no), target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("general_used", general_name, target["date_added"], int(target["x"]), int(target["y"]), target["name"])
+        post_confirmation_of_leech_results(msg + " - SUCCESS!", "kills")
     else:
         update_boss_data("status", "Disappeared", target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("modified", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("slot_used", str(general_no), target["date_added"], int(target["x"]), int(target["y"]), target["name"])
         update_boss_data("general_used", general_name, target["date_added"], int(target["x"]), int(target["y"]), target["name"])
+        post_confirmation_of_leech_results(msg + " - DISAPPEARED!", "kills")
     return sleep_counter
 
 
 def determine_if_slot_is_open(slot_num):
-    time.sleep(2)
+    time.sleep(0.5)
     take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
     roland_img = cv2.imread('./base_images/generals/roland_rally_pic.png', cv2.IMREAD_UNCHANGED)
@@ -395,6 +439,7 @@ def determine_if_slot_is_open(slot_num):
     simone_img = cv2.imread('./base_images/generals/simone_rally_pic.png', cv2.IMREAD_UNCHANGED)
     no_general_img = cv2.imread('./base_images/generals/marching_blank_general.png', cv2.IMREAD_UNCHANGED)
     aethelflaed_img = cv2.imread('./base_images/generals/aethelflaed_rally_pic.png', cv2.IMREAD_UNCHANGED)
+    ramesses_img = cv2.imread('./base_images/generals/ramesses_rally_pic.png', cv2.IMREAD_UNCHANGED)
 
     res = 0
 
@@ -403,7 +448,9 @@ def determine_if_slot_is_open(slot_num):
     elif(slot_num == 3): res = len(get_location(gameplay_img, simone_img, False))
     elif(slot_num == 4): res = len(get_location(gameplay_img, roland_img, False))
     elif(slot_num == 5): res = len(get_location(gameplay_img, aethelflaed_img, False))
-
+    elif(slot_num == 6): res = len(get_location(gameplay_img, no_general_img, False))
+    elif(slot_num == 7): res = len(get_location(gameplay_img, ramesses_img, False))
+    
     return int(res)
 
 
@@ -421,57 +468,71 @@ def hit_boss(slot):
         boss_to_hit = boss_df_primary.iloc[0,:]
     return boss_to_hit
 
+def remove_stupid_annoying_ads():
+    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
+    img = cv2.imread("./base_images/screenshots/" + "capture_rb_screencap" + ".png", cv2.IMREAD_UNCHANGED)
+    gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
+    evony_app_logo = cv2.imread('./base_images/game/cross_button_purchase.png', cv2.IMREAD_UNCHANGED)
+    locations = get_location(gameplay_img, evony_app_logo, False)
+
+    if(len(locations) == 1):
+        click_location_on_screen(locations[0][0],locations[0][1])
+
 
 def main():
-    slots = 5
+    slots = 7
     global latest_crash
     generals_slots = pd.read_csv("./config/slots.csv").query('num_of_slots == @slots').reset_index().loc[0,"included_slots"].split(",")
 
-    # #Jiggles the screen a little so the doesn't provide a false positive back to the crash detector
-    # click_location_on_screen(550, 1580)
-    # time.sleep(1)
-    # x_axis = ' shell input swipe 430 300 430 900'
-    # os.system('adb -s ' + connection_string + x_axis)
-    # time.sleep(2)
-
-    take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
-    latest_crash = check_if_evony_has_crashed()
-    print("HAS EVONY CRASHED? " + latest_crash)
-
     gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
-    share_chat_screen = cv2.imread('./base_images/game/share_chat_screen.png', cv2.IMREAD_UNCHANGED)
-    share_chat_screen_res = len(get_location(gameplay_img, share_chat_screen, False))
-    print(share_chat_screen_res)
+    evony_icon = cv2.imread('./base_images/game/evony_app_icon.png', cv2.IMREAD_UNCHANGED)
+    evony_icon_res = len(get_location(gameplay_img, evony_icon, False))
+    #evony_icon_res = 0
+    if(evony_icon_res == 0):
+        #remove_stupid_annoying_ads()
+        # take_screenshot_enhanced("./base_images/screenshots/", "capture_rb_screencap")
+        # latest_crash = check_if_evony_has_crashed()
+        # print("HAS EVONY CRASHED? " + latest_crash)
 
-    if(share_chat_screen_res >= 1):
-        click_location_on_screen(965, 335)
+        # gameplay_img = cv2.imread('./base_images/screenshots/capture_rb_screencap.png', cv2.IMREAD_UNCHANGED)
+        # share_chat_screen = cv2.imread('./base_images/game/share_chat_screen.png', cv2.IMREAD_UNCHANGED)
+        # share_chat_screen_res = len(get_location(gameplay_img, share_chat_screen, False))
 
-    if("FALSE" in latest_crash):
-        if(check_if_reset_occurred() > 0):
-            perform_game_reset_seq()
-            click_location_on_screen(670, 110)
+        # if(share_chat_screen_res >= 1):
+        #     click_location_on_screen(965, 335)
+
+        if("FALSE" in latest_crash):
+            c = 0 #check_if_reset_occurred()
+            if(c > 0):
+                perform_game_reset_seq()
+                click_location_on_screen(670, 110)
+            else:
+                try:
+                    boss_df = get_all_hitable_bosses_based_off_status('Alive')
+                    general_to_slots_map = pd.read_csv("./config/general_to_slots_mapping.csv")
+                    if(len(boss_df.index) > 0):
+                        for slot in generals_slots:
+                            general = int(slot)
+                            general_name = general_to_slots_map.query("slot_id == @general").reset_index().loc[0,"general"]
+
+                            if(int(determine_if_slot_is_open(general)) == 0):
+                                try:
+                                    initiate_rally(hit_boss(general), general, general_name)
+                                except:
+                                    continue
+                    else:
+                        logger.warning("RallyBot's queue is empty - please feed it!")
+                except:
+                    traceback.print_exc()
+                    print("Most likely queue is empty - Sleeping for 15 seconds")
+                    time.sleep(1)
+            time.sleep(1)
         else:
-            try:
-                boss_df = get_all_hitable_bosses_based_off_status('Alive')
-                general_to_slots_map = pd.read_csv("./config/general_to_slots_mapping.csv")
-                if(len(boss_df.index) > 0):
-                    for slot in generals_slots:
-                        general = int(slot)
-                        general_name = general_to_slots_map.query("slot_id == @general").reset_index().loc[0,"general"]
-
-                        if(int(determine_if_slot_is_open(general)) == 0):
-                            try:
-                                initiate_rally(hit_boss(general), general, general_name)
-                            except:
-                                continue
-            except:
-                traceback.print_exc()
-                print("Most likely queue is empty - Sleeping for 15 seconds")
-                time.sleep(1)
-        time.sleep(5)
+            time.sleep(1)
     else:
-        time.sleep(5)
-
+        click_location_on_screen(1700, 170)
+        time.sleep(2)
+        perform_game_reset_seq()
 
 if __name__ == "__main__":
     while(True):
